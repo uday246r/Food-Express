@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Food Express</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <script th:inline="javascript">
+        const GOOGLE_MAPS_API_KEY = [[${googleMapsApiKey}]];
+    </script>
+    <!-- Load Google Maps JavaScript API correctly with key and libraries -->
+    <script th:src="@{'https://maps.googleapis.com/maps/api/js?key=' + ${googleMapsApiKey} + '&libraries=places'}"></script>
+</head>
+<body>
+<div th:replace="navbar :: body"></div>
+
+<div class="order-container" style="margin-top: 10px;">
+
+
+</div>
+
+<template id="order-template">
+    <div class="order-details">
+        <div class="order-header">
+            <div>
+                <p style="margin-bottom:10px;"><strong>ORDER PLACED:</strong> <span class="order-date"></span></p>
+                <div style="display: flex; align-items: baseline; gap: 1rem;">
+                    <p><span class="order-status "></span></p>
+
+                </div>
+
+            </div>
+
+            <div>
+                <p style="margin-bottom:10px;"><strong>TOTAL:</strong> ₹<span class="order-total"></span></span></p>
+
+                <p><strong>#ORDER ID:</strong> <span class="order-id"></span></p>
+            </div>
+        </div>
+        <div class="order-products">
+            <!-- Order items will be dynamically inserted here -->
+        </div>
+    </div>
+</template>
+
+<template id="order-item-template">
+
+    <div class="order-item" id="cardValue">
+        <a href="#" id="singleFoodItem">
+            <img src="" alt="Product Image" class="product-image"></a>
+        <div id="reviewHolder">
+            <p><span class="product-name"></span></p>
+            <p>Serving(s) : <span class="product-quantity"></span></p>
+
+        </div>
+
+
+    </div>
+</template>
+
+<div id="live-tracking-popup">
+    <span id="close-popup">X</span>
+    <div id="addressMapTrack"></div>
+    <p id="eta"><strong>Estimated Time of Arrival (ETA):</strong> Calculating...</p>
+</div>
+<div th:replace="footer :: body"></div>
+<script th:src="@{/javascript/orderHistory.js}"></script>
+</body>
+</html>
