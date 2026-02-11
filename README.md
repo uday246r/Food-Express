@@ -1,7 +1,7 @@
 # 🍽️ Food Express
 
 **Food Express** is a full-stack web-based food ordering application developed as part of the **Infosys Springboard Internship Program**.
-The application enables customers to browse restaurant menus, place and manage food orders (with online payments), and provide feedback, while empowering restaurants and administrators to efficiently manage menus, orders, and reports through a centralized system.
+The application enables customers to browse restaurant menus, place and manage food orders (with online payments), verify actions using **Email OTP**, and provide feedback—while empowering restaurants and administrators to efficiently manage menus, orders, and reports through a centralized system.
 
 ---
 
@@ -9,7 +9,7 @@ The application enables customers to browse restaurant menus, place and manage f
 
 ### Problem Statement
 
-Traditional food ordering processes lack centralized management, real-time updates, secure online payments, and seamless interaction between customers and restaurants. Manual handling of menus, orders, and feedback leads to inefficiencies, delays, and poor customer experience.
+Traditional food ordering processes lack centralized management, real-time updates, secure online payments, and reliable user verification mechanisms. Manual handling of menus, orders, and feedback leads to inefficiencies, delays, and poor customer experience.
 
 ### Objective
 
@@ -18,6 +18,7 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 * Simplifies food ordering for customers
 * Enables restaurants to manage menus and orders efficiently
 * Supports secure online payments
+* Ensures user verification using **Email-based OTP authentication**
 * Provides structured feedback and reporting mechanisms
 * Demonstrates real-world application of **Java Spring Boot & MVC architecture**
 
@@ -29,16 +30,18 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 2. Restaurant Menu Management
 3. Order Management
 4. Online Payment Management
-5. Feedback Management
-6. Reports Management
+5. Email OTP Verification
+6. Feedback Management
+7. Reports Management
 
 ---
 
 ## 🚀 Features
 
-### 👤 User Management
+### 👤 User Management & Authentication
 
 * User registration with automatic unique user ID generation
+* **Email OTP verification for secure actions (registration / validation)**
 * Update personal details (address, contact information)
 * Deactivate user accounts
 * View order history and manage account preferences
@@ -128,6 +131,10 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 
 * **Razorpay (Test Mode Integration)**
 
+### Email Service
+
+* **SMTP Email Service for OTP delivery**
+
 ### Tools & Practices
 
 * IntelliJ IDEA / Eclipse
@@ -155,6 +162,8 @@ Spring Data JPA
 MySQL Database
      |
 Razorpay Payment Gateway (Test Mode)
+     |
+SMTP Email Service (OTP)
 ```
 
 ---
@@ -220,11 +229,24 @@ razorpay.key.id=your_test_key_id
 razorpay.key.secret=your_test_key_secret
 ```
 
-> ⚠️ Use **test keys only**. Do not commit live keys to GitHub.
+---
+
+### 4️⃣ Email OTP Configuration (SMTP)
+
+```properties
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=your_email@gmail.com
+spring.mail.password=your_app_password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+```
+
+> ⚠️ Use **App Passwords** for Gmail. Never commit real credentials.
 
 ---
 
-### 4️⃣ Run the Application
+### 5️⃣ Run the Application
 
 ```bash
 mvn clean install
@@ -248,6 +270,8 @@ http://localhost:8080
 | `spring.datasource.password` | Database password    |
 | `razorpay.key.id`            | Razorpay test key    |
 | `razorpay.key.secret`        | Razorpay test secret |
+| `spring.mail.username`       | Email sender         |
+| `spring.mail.password`       | Email app password   |
 | `server.port`                | Application port     |
 
 ---
@@ -256,7 +280,9 @@ http://localhost:8080
 
 | Method | Endpoint              | Description                |
 | ------ | --------------------- | -------------------------- |
-| POST   | `/users/register`     | Register new user          |
+| POST   | `/users/register`     | Register user              |
+| POST   | `/users/send-otp`     | Send email OTP             |
+| POST   | `/users/verify-otp`   | Verify email OTP           |
 | POST   | `/orders/create`      | Create order               |
 | POST   | `/payment/create`     | Initiate Razorpay payment  |
 | POST   | `/payment/verify`     | Verify payment             |
@@ -279,7 +305,7 @@ http://localhost:8080
 * Mobile-responsive UI improvements
 * Advanced analytics dashboard with charts
 * Cloud deployment (AWS / Azure)
-* Push notifications (Email / SMS)
+* Push notifications (SMS / WhatsApp)
 
 ---
 
