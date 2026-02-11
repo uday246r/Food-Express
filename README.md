@@ -237,9 +237,6 @@ http://localhost:8080
 
 ---
 
-Here’s a **clean, professional, recruiter-friendly Screenshots section** with proper headings, captions, and consistent formatting.
-
-
 ## 🖼️ Screenshots
 
 ### 🏠 Home Page
@@ -325,5 +322,5 @@ You may reuse or modify it with proper attribution.
 
 ## 👨‍💻 Team & Acknowledgment
 
-Developed by a team of **4 members** under the guidance of **Infosys Springboard Mentor**.
+This project was developed by a team of four members under the mentorship of Mr. Anil Buppuri, Infosys Springboard Mentor.
 Special thanks to Infosys Springboard for providing real-world case studies and mentorship.
