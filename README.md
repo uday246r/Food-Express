@@ -1,7 +1,7 @@
 # 🍽️ Food Express
 
 **Food Express** is a full-stack web-based food ordering application developed as part of the **Infosys Springboard Internship Program**.
-The application enables customers to browse restaurant menus, place and manage food orders, and provide feedback, while empowering restaurants to efficiently manage menus, orders, and reports through a centralized system.
+The application enables customers to browse restaurant menus, place and manage food orders (with online payments), and provide feedback, while empowering restaurants and administrators to efficiently manage menus, orders, and reports through a centralized system.
 
 ---
 
@@ -9,7 +9,7 @@ The application enables customers to browse restaurant menus, place and manage f
 
 ### Problem Statement
 
-Traditional food ordering processes lack centralized management, real-time updates, and seamless interaction between customers and restaurants. Manual handling of menus, orders, and feedback leads to inefficiencies, delays, and poor customer experience.
+Traditional food ordering processes lack centralized management, real-time updates, secure online payments, and seamless interaction between customers and restaurants. Manual handling of menus, orders, and feedback leads to inefficiencies, delays, and poor customer experience.
 
 ### Objective
 
@@ -17,6 +17,7 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 
 * Simplifies food ordering for customers
 * Enables restaurants to manage menus and orders efficiently
+* Supports secure online payments
 * Provides structured feedback and reporting mechanisms
 * Demonstrates real-world application of **Java Spring Boot & MVC architecture**
 
@@ -27,8 +28,9 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 1. User Management
 2. Restaurant Menu Management
 3. Order Management
-4. Feedback Management
-5. Reports Management
+4. Online Payment Management
+5. Feedback Management
+6. Reports Management
 
 ---
 
@@ -40,6 +42,7 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 * Update personal details (address, contact information)
 * Deactivate user accounts
 * View order history and manage account preferences
+* **Role-based access control (User / Restaurant / Admin)**
 
 ---
 
@@ -57,12 +60,22 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 * Browse restaurant menus and place orders
 * Modify orders before confirmation
 * Generate unique order ID for every order
+* **Real-time order status updates** (Placed → Accepted → Prepared → Dispatched)
 * Restaurant-side order processing:
 
   * Accept
   * Prepare
   * Dispatch
 * Order cancellation/modification under allowed conditions
+
+---
+
+### 💳 Online Payment Integration
+
+* **Razorpay payment gateway integrated (Test Mode)**
+* Secure online checkout for orders
+* Payment verification before order confirmation
+* Ready for production switch with live Razorpay keys
 
 ---
 
@@ -111,6 +124,10 @@ To design and develop a **scalable, user-friendly online food ordering platform*
 * CSS3
 * Bootstrap
 
+### Payment Gateway
+
+* **Razorpay (Test Mode Integration)**
+
 ### Tools & Practices
 
 * IntelliJ IDEA / Eclipse
@@ -136,6 +153,8 @@ Service Layer
 Spring Data JPA
      |
 MySQL Database
+     |
+Razorpay Payment Gateway (Test Mode)
 ```
 
 ---
@@ -178,13 +197,11 @@ cd Food-Express
 
 ### 2️⃣ Database Setup
 
-* Create a MySQL database:
-
 ```sql
 CREATE DATABASE food_express;
 ```
 
-* Update `application.properties`:
+Update `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/food_express
@@ -196,14 +213,25 @@ spring.jpa.show-sql=true
 
 ---
 
-### 3️⃣ Run the Application
+### 3️⃣ Razorpay Test Mode Configuration
+
+```properties
+razorpay.key.id=your_test_key_id
+razorpay.key.secret=your_test_key_secret
+```
+
+> ⚠️ Use **test keys only**. Do not commit live keys to GitHub.
+
+---
+
+### 4️⃣ Run the Application
 
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
 
-* Access the app at:
+Access:
 
 ```
 http://localhost:8080
@@ -213,83 +241,27 @@ http://localhost:8080
 
 ## 🔐 Environment Configuration
 
-| Property                        | Description        |
-| ------------------------------- | ------------------ |
-| `spring.datasource.url`         | MySQL database URL |
-| `spring.datasource.username`    | Database username  |
-| `spring.datasource.password`    | Database password  |
-| `spring.jpa.hibernate.ddl-auto` | Auto schema update |
-| `server.port`                   | Application port   |
+| Property                     | Description          |
+| ---------------------------- | -------------------- |
+| `spring.datasource.url`      | MySQL database URL   |
+| `spring.datasource.username` | Database username    |
+| `spring.datasource.password` | Database password    |
+| `razorpay.key.id`            | Razorpay test key    |
+| `razorpay.key.secret`        | Razorpay test secret |
+| `server.port`                | Application port     |
 
 ---
 
 ## 📡 API Endpoints (Sample)
 
-| Method | Endpoint              | Description         |
-| ------ | --------------------- | ------------------- |
-| POST   | `/users/register`     | Register new user   |
-| PUT    | `/users/update`       | Update user details |
-| GET    | `/users/orders`       | View order history  |
-| POST   | `/orders/create`      | Place new order     |
-| PUT    | `/orders/update/{id}` | Modify order        |
-| POST   | `/feedback/add`       | Add feedback        |
-| GET    | `/reports/orders`     | View reports        |
-
----
-
-## 🖼️ Screenshots
-
-### 🏠 Home Page
-
-*Landing page displaying restaurants, navigation, and featured dishes* <img src="https://github.com/user-attachments/assets/e73ae76b-ca18-4d95-9788-2f7dfbcb4533" alt="Food Express Home Page" width="100%"/>
-
----
-
-### 🍽️ Dish Listing Page
-
-*View available dishes with pricing and details* <img src="https://github.com/user-attachments/assets/460e1f47-8db0-49d4-80af-33fc00724ff9" alt="Dish Listing Page" width="100%"/>
-
----
-
-### 🏪 Add Restaurant (Admin)
-
-*Admin interface to register and manage restaurants* <img src="https://github.com/user-attachments/assets/1bb2d1ab-b534-42e9-875d-4ecbed84e656" alt="Add Restaurant Page" width="100%"/>
-
----
-
-### 🛒 Cart Page
-
-*Customer cart showing selected items before checkout* <img src="https://github.com/user-attachments/assets/4b28b807-86da-43b0-ac3f-9de4fcdf541b" alt="Cart Page" width="100%"/>
-
----
-
-### 📦 Customer Order Section
-
-*Customer order history with status tracking* <img src="https://github.com/user-attachments/assets/164ece33-34da-441d-b11d-258fece7ec32" alt="Customer Orders Section" width="100%"/>
-
----
-
-### 🧑‍💼 Admin Dashboard
-
-*Centralized admin panel for managing users, orders, and restaurants* <img src="https://github.com/user-attachments/assets/4a104c09-4db8-45b6-b3b7-1247062b7f63" alt="Admin Dashboard" width="100%"/>
-
----
-
-### 📊 Order Report Analysis
-
-*Graphical and tabular reports for order analytics* <img src="https://github.com/user-attachments/assets/f678fd87-6a0a-4c4d-8c6e-4e3d47821004" alt="Order Report Analysis" width="100%"/>
-
----
-
-### ➕ Add Items (Admin Panel)
-
-*Admin feature to add and manage menu items* <img src="https://github.com/user-attachments/assets/22cafe56-11e3-4b81-87b5-02f83136f54e" alt="Add Items Admin Page" width="100%"/>
-
----
-
-### 🤝 Partner Dashboard
-
-*Restaurant partner dashboard to manage orders and menus* <img src="https://github.com/user-attachments/assets/fedd287c-3eab-4a74-b553-916e4427248a" alt="Partner Dashboard" width="100%"/>
+| Method | Endpoint              | Description                |
+| ------ | --------------------- | -------------------------- |
+| POST   | `/users/register`     | Register new user          |
+| POST   | `/orders/create`      | Create order               |
+| POST   | `/payment/create`     | Initiate Razorpay payment  |
+| POST   | `/payment/verify`     | Verify payment             |
+| GET    | `/orders/status/{id}` | Get real-time order status |
+| GET    | `/reports/orders`     | View reports               |
 
 ---
 
@@ -304,23 +276,24 @@ http://localhost:8080
 
 ## 🚀 Future Enhancements
 
-* Online payment gateway integration
-* Real-time order status updates
-* Role-based access control (Admin/User/Restaurant)
 * Mobile-responsive UI improvements
-* Analytics dashboard with charts
-* Cloud deployment
+* Advanced analytics dashboard with charts
+* Cloud deployment (AWS / Azure)
+* Push notifications (Email / SMS)
 
 ---
 
 ## 📄 License
 
-This project is developed for **educational purposes** under the **Infosys Springboard Internship Program**.
-You may reuse or modify it with proper attribution.
+This project is licensed under the **MIT License**.
+
+You are free to use, modify, and distribute this software with proper attribution.
 
 ---
 
 ## 👨‍💻 Team & Acknowledgment
 
-This project was developed by a team of four members under the mentorship of Mr. Anil Buppuri, Infosys Springboard Mentor.
+This project was developed by a team of **four members** under the mentorship of **Mr. Anil Buppuri**, Infosys Springboard Mentor.
 Special thanks to Infosys Springboard for providing real-world case studies and mentorship.
+
+---
